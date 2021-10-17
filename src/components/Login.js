@@ -4,8 +4,11 @@ import Button from '@material-ui/core/Button';
 import { Grid,Box } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
 import {login} from '../service/ajax';
+import { useSelector, useDispatch } from 'react-redux'
+import {updateUser} from '../features/userInfo/userInfoSlice';
 function Login(props) {
 
+  const dispatch = useDispatch()
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
@@ -14,7 +17,8 @@ function Login(props) {
       'username': username,
       'password': password
     });
-    props.saveUserInfo(userInfo)
+    dispatch(updateUser(userInfo))
+    // props.saveUserInfo(userInfo)
     console.log(userInfo)
   }
 
