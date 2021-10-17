@@ -6,33 +6,51 @@ import TextField from '@material-ui/core/TextField';
 import {login} from '../service/ajax';
 import { useSelector, useDispatch } from 'react-redux'
 import {updateUser} from '../features/userInfo/userInfoSlice';
+import SignUp from './SignUp';
 function Login(props) {
 
   const dispatch = useDispatch()
-  const [username, setUserName] = useState();
-  const [password, setPassword] = useState();
+  const [username, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [signUp, setSignUp] = useState(false);
 
   function loginUser() {
-    let userInfo = login({
+    if (username == '' || 
+    password == '' ) {
+                alert('Please fill all mandatory fields');
+                return;
+            }
+
+    const userInfo =  login({
       'username': username,
       'password': password
     });
     dispatch(updateUser(userInfo))
-    // props.saveUserInfo(userInfo)
-    console.log(userInfo)
+      // props.saveUserInfo(userInfo)
+      console.log(userInfo)
   }
 
+  function signUpHandle() {
+    setSignUp(true);
+  }
+
+    if (signUp) {
+      return <SignUp/ >;
+    }
     return (
         <Box className={styles.loginform} maxWidth="xs">
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
-                    <TextField fullWidth label="Username" name="username" size="small" variant="outlined" onChange = {(e) => setUserName(e.target.value)} />
+                    <TextField fullWidth  defaultValue={username} required label="Username" name="username" size="small" variant="outlined" onChange = {(e) => setUserName(e.target.value)} />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
                       fullWidth
+                      required
+                      defaultValue={password} 
                       label="Password"
                       name="password"
                       size="small"
@@ -49,7 +67,7 @@ function Login(props) {
                 </Button>
               </Grid>
               <Grid item xs={12}>
-                <Button color="primary" fullWidth type="submit" variant="contained">
+                <Button color="primary" onClick={(e) => signUpHandle(e)} fullWidth type="submit" variant="contained">
                   Sign Up
                 </Button>
               </Grid>

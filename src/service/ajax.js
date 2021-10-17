@@ -9,17 +9,17 @@ async function getCategories() {
 
 }
 
+async function signup() {
+    let url = baseUrl + '/signup';
+    return true;
+}
+
 async function getItems() {
 
     let url = baseUrl + '/getItems';
     
 }
 
-async function signUp() {
-
-    let url = baseUrl + '/signup';
-    
-}
 
 
 function login({username, password}) {
@@ -28,4 +28,4 @@ function login({username, password}) {
     return {'userName': 'kp'};
 }
 
-export  {getCategories, login};
+export  {getCategories, login, signup};

@@ -31,7 +31,6 @@ function App() {
 // }
 
 const userInfo = useSelector((state) => {
-
   return state.userInfo.userName;
 })
 
