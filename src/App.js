@@ -31,11 +31,11 @@ function App() {
 // }
 
 const userInfo = useSelector((state) => {
-  return state.userInfo.userName;
+  return state.userInfo;
 })
 
   console.log(userInfo)
-  if (!userInfo) {
+  if (!userInfo.userName) {
     return <Login />
   }
   return (
@@ -49,7 +49,7 @@ const userInfo = useSelector((state) => {
             <Login />
           </Route>
           <Route exact path="/">
-            {userInfo ?  <Redirect to='/home' /> : <Login />}
+            {userInfo.userName ?  <Redirect to='/home' /> : <Login />}
           </Route>
         </Switch>
       </BrowserRouter>

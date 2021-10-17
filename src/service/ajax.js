@@ -25,7 +25,12 @@ async function getItems() {
 function login({username, password}) {
     
     let url = baseUrl + '/login';
-    return {'userName': 'kp'};
+    return { userName: 'KP',
+    firstName: 'Krishna', 
+    middleName: 'Prasad',
+    lastName: 'Patnaik',
+    phoneNumber: '*****',
+    emailId: '****@****' };
 }
 
 export  {getCategories, login, signup};

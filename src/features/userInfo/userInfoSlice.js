@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
-    userName: null,
-    currentlySelling: [], 
-    sold: [],
-    bought: []
+    userName: 'KP',
+    firstName: 'Krishna', 
+    middleName: 'Prasad',
+    lastName: 'Patnaik',
+    phoneNumber: '*****',
+    emailId: '****@****' 
   }
   
   export const userInfoSlice = createSlice({
@@ -18,11 +20,24 @@ const initialState = {
         // which detects changes to a "draft state" and produces a brand new
         // immutable state based off those changes
         state.userName = action.payload.userName
+        state.firstName = action.payload.firstName;
+          state.middleName=action.payload.middleName;
+          state.lastName=action.payload.lastName;
+          state.phoneNumber = action.payload.phoneNumber;
+          state.emailId = action.payload.emailId;
+      }, 
+      signOutUser: (state) => {
+          state.userName = null;
+          state.firstName = null;
+          state.middleName=null;
+          state.lastName=null;
+          state.phoneNumber = null;
+          state.emailId = null;
       }
     },
   })
   
   // Action creators are generated for each case reducer function
-  export const { updateUser } = userInfoSlice.actions
+  export const { updateUser, signOutUser } = userInfoSlice.actions
   
   export default userInfoSlice.reducer
