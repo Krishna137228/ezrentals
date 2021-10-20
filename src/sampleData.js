@@ -14,9 +14,9 @@ function getSampleItems() {
     }, 
     {
         itemName: "Flute",
-        itemDescription: "",
+        itemDescription: "My Flute",
         category: "Musical Instrument",
-        price: "", 
+        price: "33", 
         location: "",
         sellerPhnNbr: "",
         sellerEmail: "",
@@ -24,9 +24,9 @@ function getSampleItems() {
 
     },{
         itemName: "Fridge",
-        itemDescription: "",
+        itemDescription: "My Fridge",
         category: "Refrigerator",
-        price: "", 
+        price: "99", 
         location: "",
         sellerPhnNbr: "",
         sellerEmail: "",
@@ -36,7 +36,7 @@ function getSampleItems() {
         itemName: "Guitar",
         itemDescription: "",
         category: "Musical Instrument",
-        price: "", 
+        price: "80", 
         location: "",
         sellerPhnNbr: "",
         sellerEmail: "",
@@ -56,7 +56,7 @@ function getSampleItems() {
         itemName: "Laptop",
         itemDescription: "",
         category: "Laptop",
-        price: "100", 
+        price: "10000", 
         location: "",
         sellerPhnNbr: "",
         sellerEmail: "",
@@ -76,7 +76,8 @@ function  getSampleUser() {
     middleName: 'Prasad',
     lastName: 'Patnaik',
     phoneNumber: '*****',
-    emailId: '****@****' };
+    emailId: '****@****', 
+    location: {} };
     return testUser;
 }
 

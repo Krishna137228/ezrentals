@@ -1,12 +1,13 @@
 import './App.css';
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import Login from './components/Login';
 import Home from './components/home';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
+import {updateLocation} from './features/userInfo/userInfoSlice';
 import { useSelector, useDispatch } from 'react-redux'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-
+import {admindashboard} from '../src/components/admindashboard/adminDashboard';
 
 
 function App() {
@@ -29,7 +30,24 @@ function App() {
 //   sessionStorage.setItem('ezrentalsuserinfo', JSON.stringify(userInfo))
 //   setUserInfo(userInfo)
 // }
+const dispatch = useDispatch()
+useEffect(() => {
+  const position = getLocation();
+}, [])
 
+// fetches location
+const getLocation = () => {
+  if (!navigator.geolocation) {
+    alert('Geolocation is not supported by your browser');
+  } else {
+    navigator.geolocation.getCurrentPosition((position) => {
+      dispatch(updateLocation({position: position}));
+      
+    }, () => {
+      alert('Unable to retrieve your location');
+    });
+  }
+}
 const userInfo = useSelector((state) => {
   return state.userInfo;
 })
@@ -37,6 +55,9 @@ const userInfo = useSelector((state) => {
   console.log(userInfo)
   if (!userInfo.userName) {
     return <Login />
+  }
+  if (userInfo.userName == 'admin') {
+    return <admindashboard />
   }
   return (
     <div className="App">

@@ -18,6 +18,7 @@ function Dashboard(props) {
     var selectedCategories = useSelector((state) => state.userInput.selectedCategories);
     var sortBy = useSelector((state) => state.userInput.sortBy);
     var order = useSelector((state) => state.userInput.order);
+    var position = useSelector((state) =>  state.userInfo.location)
       
 
     useEffect(() => {
@@ -30,6 +31,7 @@ function Dashboard(props) {
         console.log(selectedCategories);
         console.log(sortBy);
         console.log(order);
+        console.log(position);
 
         let itemData = getItems();
         console.log(itemData)

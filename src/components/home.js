@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../layout/Header";
 import Login from "../components/Login";
-import Dashboard from "./dashboard/dashboard";
+import Dashboard from "./userdashboard/dashboard";
 import { Button,TextField,Grid,Paper,AppBar,Typography,Toolbar,Link } from "@material-ui/core";
 function Home(props) {
     return (

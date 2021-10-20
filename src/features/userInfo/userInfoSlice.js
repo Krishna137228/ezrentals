@@ -30,11 +30,14 @@ const initialState = getSampleUser();
           state.lastName=null;
           state.phoneNumber = null;
           state.emailId = null;
+      },
+      updateLocation: (state, action) => {
+          state.location=action.payload.location;
       }
     },
   })
   
   // Action creators are generated for each case reducer function
-  export const { updateUser, signOutUser } = userInfoSlice.actions
+  export const { updateUser, signOutUser,updateLocation } = userInfoSlice.actions
   
   export default userInfoSlice.reducer
