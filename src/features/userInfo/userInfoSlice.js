@@ -1,12 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
-const initialState = {
-    userName: 'KP',
-    firstName: 'Krishna', 
-    middleName: 'Prasad',
-    lastName: 'Patnaik',
-    phoneNumber: '*****',
-    emailId: '****@****' 
-  }
+
+import {getSampleItems, getSampleUser, getBlankUser} from '../../sampleData';
+const initialState = getSampleUser();
+//const initialState = getBlankUser();
+
   
   export const userInfoSlice = createSlice({
     name: 'userInfo',

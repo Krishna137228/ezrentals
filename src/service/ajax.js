@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import {getSampleItems, getSampleUser} from '../sampleData';
 const baseUrl = 'http://localhost:8080';
 
 async function getCategories() {
@@ -17,6 +17,7 @@ async function signup() {
 async function getItems() {
 
     let url = baseUrl + '/getItems';
+    return getSampleItems();
     
 }
 
@@ -25,12 +26,10 @@ async function getItems() {
 function login({username, password}) {
     
     let url = baseUrl + '/login';
-    return { userName: 'KP',
-    firstName: 'Krishna', 
-    middleName: 'Prasad',
-    lastName: 'Patnaik',
-    phoneNumber: '*****',
-    emailId: '****@****' };
+
+    // downloadFile();
+    return getSampleUser();
+    
 }
 
 export  {getCategories, login, signup};

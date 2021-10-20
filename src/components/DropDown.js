@@ -7,28 +7,34 @@ import styles from '../styles/sortBy.module.scss';
 import { Grid,Box,Paper, Checkbox , FormGroup, FormControlLabel} from "@material-ui/core";
 
 
-function SortBy(props) {
-    const [sortBy, setSortBy] = React.useState('');
+function DropDown(props) {
+    const [sortBy, setSortBy] = React.useState(props.value);
+    console.log(props.value)
     let handleChange=(e) => {
         setSortBy(e.target.value)
+        props.updateOption(e.target.value);
     }
+
+    const options = props.options;
+    
     return (
         <div className = {styles.sortBy} >
             <FormControl size="small" fullWidth = {true} >
-                        <InputLabel id="demo-simple-select-label">Sort By</InputLabel>
+                        <InputLabel id="demo-simple-select-label">{props.label}</InputLabel>
                         <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={sortBy}
+                        defaultValue={props.defaultValue}
                         label="Age"
                         onChange={handleChange}
                         >
-                        <MenuItem value={'price'}>Price</MenuItem>
-                        <MenuItem value={'distance'}>Distance</MenuItem>
+                            {Object.keys(options).map((key) => <MenuItem value={options[key]}>{key}</MenuItem>)}
+                        
                         </Select>
                         
                     </FormControl>
         </div>
     );
 }
-export default SortBy;
+export default DropDown;
