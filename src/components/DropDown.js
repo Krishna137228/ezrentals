@@ -9,7 +9,6 @@ import { Grid,Box,Paper, Checkbox , FormGroup, FormControlLabel} from "@material
 
 function DropDown(props) {
     const [sortBy, setSortBy] = React.useState(props.value);
-    console.log(props.value)
     let handleChange=(e) => {
         setSortBy(e.target.value)
         props.updateOption(e.target.value);
@@ -25,7 +24,7 @@ function DropDown(props) {
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={sortBy}
-                        defaultValue={props.defaultValue}
+                        //defaultValue={props.defaultValue}
                         label="Age"
                         onChange={handleChange}
                         >

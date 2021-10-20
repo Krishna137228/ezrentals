@@ -65,7 +65,7 @@ function getSampleItems() {
     },  
     
     ];
-    
+ return items   
 
 }
 

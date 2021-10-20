@@ -14,8 +14,9 @@ async function signup() {
     return true;
 }
 
-async function getItems() {
+function getItems(selectedSort, selectedOrder) {
 
+    console.log(selectedSort, selectedOrder);
     let url = baseUrl + '/getItems';
     return getSampleItems();
     
@@ -32,4 +33,4 @@ function login({username, password}) {
     
 }
 
-export  {getCategories, login, signup};
+export  {getCategories, login, signup, getItems};
