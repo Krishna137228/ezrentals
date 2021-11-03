@@ -22,13 +22,19 @@ function Login(props) {
                 return;
             }
 
-    const userInfo =  login({
+    login({
       'username': username,
       'password': password
-    });
-    dispatch(updateUser(userInfo))
-      // props.saveUserInfo(userInfo)
-      console.log(userInfo)
+    }).then(res => {
+      if (res == false) {
+        alert('Login failed, please try again')
+      } else {
+        console.log(res);
+        dispatch(updateUser(res))
+        // props.saveUserInfo(userInfo)
+        console.log(res)
+      }
+    })
   }
 
   function signUpHandle() {

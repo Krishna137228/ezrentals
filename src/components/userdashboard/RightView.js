@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Iteminfo from "../ItemInfo";
 
-import Pagination from '@mui/material/Pagination';
+
 import Stack from '@mui/material/Stack';
 import styles from '../../styles/rightview.module.scss';
-import { Grid,Container,Button, Box, Modal} from "@material-ui/core";
-import {updateSortBy, updateOrder} from '../../features/userInputs/userInputSlice';
+import { Grid,Container,Button, Box, Modal,Switch, Typography} from "@material-ui/core";
+import {updateSortBy, updateOrder, updateBuyFlag} from '../../features/userInputs/userInputSlice';
 import { useSelector, useDispatch } from 'react-redux'
 import DropDown from '../DropDown';
 import ItemUpload from '../ItemUpload';
-import ItemStatus from '../ItemStatus';
+import ItemsGrid from './ItemsGrid';
 function RightView(props) {
     
     const sortByOptions = {
@@ -27,14 +27,19 @@ function RightView(props) {
 
     var sortBy = useSelector((state) => state.userInput.sortBy);
     var order = useSelector((state) => state.userInput.order);
-    var items = useSelector((state) => state.itemData.items);
-    console.log(items);
+    var buyFlag = useSelector((state) => state.userInput.buyFlag);
+    
 
     function updateSortByFn(newSortBy) {
         dispatch(updateSortBy({sortBy: newSortBy}))
     }
     function updateOrderFn(newOrder) {
         dispatch(updateOrder({order: newOrder}))
+    }
+
+    function handleBuyFlag() {
+        console.log('Buy Flag chagned')
+        dispatch(updateBuyFlag({buyFlag: !buyFlag}));
     }
 
     // sell modal
@@ -44,11 +49,12 @@ function RightView(props) {
         setOpenUploadModal(!openItemUploadModal);
     }
 
-    // Item status modal
-    var [openItemStatusModal, setOpenItemStatusModal] = useState(false);
-    function toggleItemStatusModal() {
-        setOpenItemStatusModal(!openItemStatusModal);
-    }
+    // // Item status modal
+    // var [openItemStatusModal, setOpenItemStatusModal] = useState(false);
+    // function toggleItemStatusModal() {
+    //     setOpenItemStatusModal(!openItemStatusModal);
+    // }
+
 
     return (
         <div className={styles.rightview}>
@@ -56,7 +62,7 @@ function RightView(props) {
                 <Box >
                     <Grid container direction="row-reverse" justifyContent="flex-start" alignItems="center" spacing={2}>
                         <Grid item xs={1}>
-                            <Button color="primary" variant="contained" onClick={() => props.getItems()}>
+                            <Button color="primary" variant="contained" onClick={(page, limit) => props.getItems(page, limit)}>
                                 Apply
                             </Button>
                         </Grid>
@@ -77,12 +83,23 @@ function RightView(props) {
                                     </Modal>
                                 </Grid>
                                 <Grid item xs={2}>
-                                    <Button color="primary" variant="contained" onClick={() => toggleItemStatusModal()}>
+                                    <Typography>
+                                        My Items
+                                    </Typography>
+                                    {/* <Button color="primary" variant="contained" onClick={() => toggleItemStatusModal()}>
                                         Status
-                                    </Button>
-                                    <Modal open={openItemStatusModal} onClose={toggleItemStatusModal} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+                                    </Button> */}
+                                    {/* <Modal open={openItemStatusModal} onClose={toggleItemStatusModal} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                                         <ItemStatus handleClose={toggleItemStatusModal} />
-                                    </Modal>
+                                    </Modal> */}
+                                </Grid>
+                                <Grid item xs={1}>
+                                    <Switch color='primary' defaultChecked onChange={(e) => handleBuyFlag(e)}/>
+                                </Grid>
+                                <Grid item xs={2}>
+                                        <Typography>
+                                             Buy Items
+                                        </Typography>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -90,18 +107,7 @@ function RightView(props) {
                     </Grid>
                 </Box>
                 <Box>
-                    <Grid container spacing={3} > 
-                        { items.map(item => {
-                            return <Grid item xs={4}> 
-                                <Iteminfo {...item}/>
-                            </Grid>
-                        }) }
-                    </Grid>
-                    <Grid container spacing={3} direction="row-reverse" justifyContent="flex-start" alignItems="center" >
-                        <Grid item>
-                            <Pagination count={10} />
-                        </Grid>
-                    </Grid>
+                    <ItemsGrid getItems={( page, limit)=>props.getItems( page, limit)}/>
                 </Box>
                </Container>
         </div>

@@ -18,25 +18,27 @@ function Dashboard(props) {
     var selectedCategories = useSelector((state) => state.userInput.selectedCategories);
     var sortBy = useSelector((state) => state.userInput.sortBy);
     var order = useSelector((state) => state.userInput.order);
-    var position = useSelector((state) =>  state.userInfo.location)
+    var username = useSelector((state) => state.userInfo.username);
+    var buyFlag = useSelector((state) => state.userInput.buyFlag);
+    var position = useSelector((state) =>  state.userInfo.location);
       
 
-    useEffect(() => {
-        console.log("Component mount")
-        getItemsToDisplay();
-    }, [])
+    function getItemsToDisplay(page, limit) {
 
-    function getItemsToDisplay() {
-
+        console.log(buyFlag)
         console.log(selectedCategories);
         console.log(sortBy);
         console.log(order);
         console.log(position);
+        console.log(page);
+        console.log(limit);
 
-        let itemData = getItems();
-        console.log(itemData)
-    
-        dispatch(updateItems({items: itemData}))
+        getItems(username, buyFlag, page, limit, sortBy, order).then(itemData => {
+            console.log(itemData)
+
+            dispatch(updateItems({items: itemData}))
+        })
+       
     }
     return (
         <div className={styles.root}>
@@ -46,7 +48,7 @@ function Dashboard(props) {
                         <LeftMenu />
                     </Grid>
                     <Grid  item xs={10}>
-                        <RightView getItems={()=>getItemsToDisplay()} />
+                        <RightView getItems={( page, limit)=>getItemsToDisplay( page, limit)} />
                     </Grid>
                 </Grid>
                 

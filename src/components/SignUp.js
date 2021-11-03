@@ -14,10 +14,10 @@ function SignUp(props) {
   const [firstname, setFirstName] = useState('');
   const [middlename, setMiddleName] = useState('');  
   const [lastname, setLastName] = useState('');
-  const [phonenumber, setPhoneNumber] = useState('');
+  const [mobileNumber, setMobileNumber] = useState('');
   const [email, setEmail] = useState();
 
-  function signUpHandle() {
+  async function signUpHandle() {
     
     if (username == '' || 
     password == '' || 
@@ -25,27 +25,33 @@ function SignUp(props) {
     middlename == '' || 
     lastname == '' || 
     email == '' || 
-    phonenumber == ''  ) {
+    mobileNumber == ''  ) {
                 alert('Please fill all mandatory fields');
                 return;
             }
 
-    const userInfo = {
-        userName: username,
-        password: password,
-        firstName: firstname, 
-        middleName: middlename,
-        lastName: lastname,
-        phoneNumber: phonenumber,
-        emailId: email 
+    const paylaod = {
+              'userInfo': {
+                username: username,
+                firstName: firstname, 
+                middleName: middlename,
+                lastName: lastname,
+                mobileNumber: mobileNumber,
+                emailId: email 
+              }, 'userSecret': {
+                username: username,
+                password: password,
+              }
+      }
+    let res = await signup(paylaod);
+    if (res != true) {
+      alert(res);
+    } else {
+      dispatch(updateUser(paylaod.userInfo))
+      // props.saveUserInfo(userInfo)
+      console.log(paylaod.userInfo)
+      console.log('Signed up ')
     }
-    signup(userInfo);
-    dispatch(updateUser(userInfo))
-            // props.saveUserInfo(userInfo)
-            console.log(userInfo)
-            console.log('Signed up ')
-            dispatch(updateUser({userName: 'test'}));
-   
   }
 
     return (
@@ -66,7 +72,7 @@ function SignUp(props) {
                     <TextField required fullWidth defaultValue={email} label="Email Id" name="emailId" size="small" variant="outlined" onChange = {(e) => setEmail(e.target.value)} />
                   </Grid>
                   <Grid item xs={12}>
-                    <TextField required fullWidth defaultValue={phonenumber} label="Phone Number" name="phoneNumber" size="small" variant="outlined" onChange = {(e) => setPhoneNumber(e.target.value)} />
+                    <TextField required fullWidth defaultValue={mobileNumber} label="Mobile Number" name="mobileNumber" size="small" variant="outlined" onChange = {(e) => setMobileNumber(e.target.value)} />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField required fullWidth defaultValue={username} label="Username" name="username" size="small" variant="outlined" onChange = {(e) => setUserName(e.target.value)} />

@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import {updateLocation} from './features/userInfo/userInfoSlice';
 import { useSelector, useDispatch } from 'react-redux'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import {admindashboard} from '../src/components/admindashboard/adminDashboard';
+import AdminDashBoard from '../src/components/admin/AdminDashBoard'
 
 
 function App() {
@@ -53,11 +53,11 @@ const userInfo = useSelector((state) => {
 })
 
   console.log(userInfo)
-  if (!userInfo.userName) {
+  if (!userInfo.username) {
     return <Login />
   }
-  if (userInfo.userName == 'admin') {
-    return <admindashboard />
+  if (userInfo.username == 'admin') {
+    return <AdminDashBoard />
   }
   return (
     <div className="App">
@@ -70,7 +70,7 @@ const userInfo = useSelector((state) => {
             <Login />
           </Route>
           <Route exact path="/">
-            {userInfo.userName ?  <Redirect to='/home' /> : <Login />}
+            {userInfo.username ?  <Redirect to='/home' /> : <Login />}
           </Route>
         </Switch>
       </BrowserRouter>

@@ -2,7 +2,9 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
     selectedCategories: [],
     sortBy: 'price',
-    order: 'asc'
+    order: 'asc',
+    categories: [],
+    buyFlag: true
 }
 export const userInputSlice = createSlice({
     name: 'userInput',
@@ -17,11 +19,18 @@ export const userInputSlice = createSlice({
       },
        updateOrder: (state, action) => {
         state.order = action.payload.order;
+      },
+      updateBuyFlag:  (state, action) => {
+        state.buyFlag = action.payload.buyFlag;
+      },
+      updateCategories: (state, action) => {
+        console.log(action.payload.categories)
+        state.categories = action.payload.categories;
       }
     },
   })
   
   // Action creators are generated for each case reducer function
-  export const { updateSelectedCategories, updateSortBy, updateOrder } = userInputSlice.actions
+  export const { updateSelectedCategories, updateSortBy, updateOrder,updateBuyFlag, updateCategories } = userInputSlice.actions
   
   export default userInputSlice.reducer

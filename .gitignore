@@ -12,6 +12,8 @@
 /build
 
 # misc
+.env
+clean-circuit-329306-7f6645f7f8e0.json
 .DS_Store
 .env.local
 .env.development.local

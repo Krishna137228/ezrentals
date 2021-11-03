@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 import {getSampleItems, getSampleUser, getBlankUser} from '../../sampleData';
-const initialState = getSampleUser();
-//const initialState = getBlankUser();
+//const initialState = getSampleUser();
+const initialState = getBlankUser();
 
   
   export const userInfoSlice = createSlice({
@@ -11,24 +11,25 @@ const initialState = getSampleUser();
     reducers: {
       updateUser: (state, action) => {
           console.log("Within reducer");
-          console.log(action.payload.userName);
+          console.log(action.payload.username);
         // Redux Toolkit allows us to write "mutating" logic in reducers. It
         // doesn't actually mutate the state because it uses the Immer library,
         // which detects changes to a "draft state" and produces a brand new
         // immutable state based off those changes
-        state.userName = action.payload.userName
+        state.username = action.payload.username
         state.firstName = action.payload.firstName;
           state.middleName=action.payload.middleName;
           state.lastName=action.payload.lastName;
-          state.phoneNumber = action.payload.phoneNumber;
+          state.mobileNumber = action.payload.mobileNumber;
           state.emailId = action.payload.emailId;
+          
       }, 
       signOutUser: (state) => {
-          state.userName = null;
+          state.username = null;
           state.firstName = null;
           state.middleName=null;
           state.lastName=null;
-          state.phoneNumber = null;
+          state.mobileNumber = null;
           state.emailId = null;
       },
       updateLocation: (state, action) => {

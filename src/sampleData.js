@@ -40,7 +40,7 @@ function getSampleItems() {
         location: "",
         sellerPhnNbr: "",
         sellerEmail: "",
-        imageUrls: ["https://storage.cloud.google.com/ez_rentals/kp/guitar.jpeg"]
+        imageUrls: ["https://storage.googleapis.com/ez_rentals/kp/guitar.jpeg"]
 
     },{
         itemName: "Chair",
@@ -71,11 +71,13 @@ function getSampleItems() {
 
 function  getSampleUser() {
    
-    const testUser =  { userName: 'KP',
+    const testUser =  { 
+    
+    username: 'KP',
     firstName: 'Krishna', 
     middleName: 'Prasad',
     lastName: 'Patnaik',
-    phoneNumber: '*****',
+    mobileNumber: '*****',
     emailId: '****@****', 
     location: {} };
     return testUser;
@@ -83,11 +85,12 @@ function  getSampleUser() {
 
 function  getBlankUser() {
    
-    const testUser =  { userName: null,
+    const testUser =  { 
+    username: null,
     firstName: null, 
     middleName: null,
     lastName: null,
-    phoneNumber: '*****',
+    mobileNumber: '*****',
     emailId: '****@****' };
     return testUser;
 }

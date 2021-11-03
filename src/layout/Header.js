@@ -34,7 +34,7 @@ function Header(props) {
                             
                         </Grid>
                         {
-                            userInfo.userName != null 
+                            userInfo.username != null 
                             ?   <Grid item xs={6}>
                                     <Grid container spacing={8} direction="row-reverse">
                                         <Grid item>
@@ -44,7 +44,7 @@ function Header(props) {
                                         </Grid>
                                         <Grid item>
                                             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                                                {userInfo.userName}
+                                                {userInfo.username}
                                             </Typography>
                                         </Grid>
                                         
