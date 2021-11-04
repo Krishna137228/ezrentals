@@ -6,9 +6,11 @@ import CardMedia from '@mui/material/CardMedia';
 import { Grid,Container,Button,IconButton, Box } from "@material-ui/core";
 import { useSelector, useDispatch } from 'react-redux';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Typography from '@mui/material/Typography';
 import styles from '../styles/iteminfo.module.scss';
 import {sendEmail} from '../service/ajax';
+import Tooltip from '@mui/material/Tooltip';
 
 function Iteminfo(props) {
 
@@ -17,7 +19,7 @@ function Iteminfo(props) {
     
     async function sendEmailFn() {
         let res = await sendEmail(buyerId, itemId);
-        alert(res.data);
+        alert(res.message);
     }
     return (
         <Card>
@@ -35,23 +37,35 @@ function Iteminfo(props) {
                     <Box>
                         {props.buyFlag == true
                         ? <Grid container direction="row" justifyContent="flex-start" alignItems="center" spacing={2}>
-                            <Grid item  xs={7}>
-                                {props.itemName}
+                            <Grid item  xs={8}>
+                                {props.itemDescription}
                             </Grid>
-                            <Grid item  xs={3}>
-                            
-                                {props.price}$
-                                    
+                            <Grid item  xs={2}>
+                            <Tooltip title={props.address}>
+                                <IconButton color="primary">
+                                    <LocationOnIcon />
+                                </IconButton>
+                            </Tooltip>
+                                
                             </Grid>
                             <Grid item  xs={2}>
                                 <IconButton color="primary" aria-label="Send email">
                                     <MailOutlineIcon onClick={() => sendEmailFn()}/>
                                 </IconButton>
                             </Grid>
+                            <Grid item  xs={12}>
+                            
+                                <Grid container direction="row">
+                                    <Grid item xs={6}>Price: {props.price}$</Grid>
+                                    <Grid item xs={6}>Day rent: {props.rent}$</Grid>
+                                </Grid>
+                                    
+                            </Grid>
+                            
                         </Grid> 
                         : <Grid container direction="row" justifyContent="flex-start" alignItems="center" spacing={2}>
                             <Grid item  xs={7}>
-                                {props.itemName}
+                                {props.itemDescription}
                             </Grid>
                             <Grid item  xs={3}>
                                 {props.isSold == true 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {getSampleItems, getSampleUser} from '../sampleData';
-const baseUrl = 'http://localhost:5000/easyren-329315/us-central1/api';
+const baseUrl = 'https://us-central1-easyren-329315.cloudfunctions.net/api';
 
 async function getCategories() {
 
@@ -8,6 +8,21 @@ async function getCategories() {
     let res = await axios.get(url);
 
     return res.data;
+
+}
+
+async function addCategory(id, category) {
+
+    let req = {
+        'id': id,
+        'category': category
+    }
+    let url = baseUrl + '/addCategory';
+    let res = await axios.post(url, req);
+
+    if (res.status == 200)  
+        return 'Category added successfully';
+    return 'Failed to add category';
 
 }
 
@@ -87,4 +102,4 @@ async function login({username, password}) {
     
 }
 
-export  {getCategories, login, signup, getItems, uploadImage, addItem,sendEmail};
+export  {getCategories, login, signup, getItems, uploadImage, addItem,sendEmail, addCategory};

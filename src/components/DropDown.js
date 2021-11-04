@@ -8,24 +8,23 @@ import { Grid,Box,Paper, Checkbox , FormGroup, FormControlLabel} from "@material
 
 
 function DropDown(props) {
-    const [sortBy, setSortBy] = React.useState(props.value);
+    const [selectedVal, setSelectedVal] = React.useState(props.value);
     let handleChange=(e) => {
-        setSortBy(e.target.value)
+        setSelectedVal(e.target.value)
         props.updateOption(e.target.value);
     }
 
     const options = props.options;
     
     return (
-        <div className = {styles.sortBy} >
+        <div >
             <FormControl size="small" fullWidth = {true} >
                         <InputLabel id="demo-simple-select-label">{props.label}</InputLabel>
                         <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={sortBy}
+                        value={selectedVal}
                         //defaultValue={props.defaultValue}
-                        label="Age"
                         onChange={handleChange}
                         >
                             {Object.keys(options).map((key) => <MenuItem value={options[key]}>{key}</MenuItem>)}

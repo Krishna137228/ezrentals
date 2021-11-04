@@ -12,10 +12,11 @@ function ItemsGrid(props) {
 
     const handlePageChange = (event, value) => {
       setPage(value);
-      props.getItems(value, limit);
+      // props.getItems(value, limit);
     };
 
-    var items = useSelector((state) => state.itemData.items);
+    // effItems contains items which are sorted and 
+    var items = useSelector((state) => state.itemData.effItems);
     console.log(items);
 
     
@@ -25,10 +26,10 @@ function ItemsGrid(props) {
     }, [buyFlag])
 
 
-    useEffect(() => {
-        console.log("Component mount")
-        props.getItems( page, limit);
-    }, [])
+    // useEffect(() => {
+    //     console.log("Component mount")
+    //     props.getItems( page, limit);
+    // }, [])
     return (
         <>
         <Grid container spacing={3} > 

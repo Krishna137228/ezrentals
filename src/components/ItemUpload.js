@@ -5,10 +5,25 @@ import { useSelector, useDispatch } from 'react-redux'
 import imageCompression from 'browser-image-compression';
 import {uuid} from "uuidv4";
 import {uploadImage, addItem} from '../service/ajax';
+import DropDown from '../components/DropDown';
+import PlacesAutocomplete, {geocodeByAddress, getLatLng} from "react-places-autocomplete";
 
 function ItemUpload(props) {
 
-    
+    const [address, setAddress] = React.useState("");
+    const [coordinates, setCoordinates] = React.useState({
+        lat: null,
+        lng: null
+    });
+
+    const handleSelect = async value => {
+        const results = await geocodeByAddress(value);
+        const latLng = await getLatLng(results[0]);
+        setAddress(value);
+        setCoordinates(latLng);
+        console.log(latLng)
+      };
+
 
     const BorderLinearProgress = withStyles((theme) => ({
     root: {
@@ -38,12 +53,14 @@ function ItemUpload(props) {
 
       var curUser = useSelector((state) => state.userInfo.username);
 
+      const categoryOptions = useSelector((state) => state.userInput.categoryOptions )
+
       var [itemId, setItemId] = useState(uuid())
       var [itemName, setItemName] = useState('');
       var [itemDescription, setItemDescription] = useState('');
       var [category, setCategory] = useState('');
       var [price, setPrice] = useState(0);
-      var [location, setLocation] = useState();
+      var [rent, setRent] = useState(0);
       var [sellerMobileNbr, setSellerMobileNbr] = useState(useSelector((state) => state.userInfo.mobileNumber));
       var [sellerEmail, setSellerEmail] = useState(useSelector((state) => state.userInfo.emailId));
 
@@ -88,7 +105,7 @@ function ItemUpload(props) {
 
       async function uploadItem() {
         if (itemId == '' || itemName == '' || itemDescription == '' || category == '' || price == 0 || sellerMobileNbr == '' ||
-        sellerEmail == '' ) {
+        sellerEmail == '' || previewImage == undefined || address == '' ) {
                     alert('Please fill all mandatory fields');
                     return;
             }
@@ -99,8 +116,11 @@ function ItemUpload(props) {
             'itemDescription': itemDescription,
             'category': category,
             'price': price,
+            'rent': rent,
             'contacted': 0,
             'isSold': false,
+            'coordinates': coordinates,
+            'address': address,
             'uploadedBy': curUser,
             'sellerMobileNbr': sellerMobileNbr,
             'sellerEmail': sellerEmail
@@ -174,8 +194,39 @@ function ItemUpload(props) {
                                     <TextField required fullWidth defaultValue={price} label="Price" name="price" size="small" variant="outlined" onChange = {(e) => setPrice(e.target.value)} />
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <TextField required fullWidth defaultValue={category} label="Category" name="category" size="small" variant="outlined" onChange = {(e) => setCategory(e.target.value)} />
+                                    <TextField required fullWidth defaultValue={rent} label="Rent per day" name="rent" size="small" variant="outlined" onChange = {(e) => setRent(e.target.value)} />
                                 </Grid>
+                                <Grid item xs={12}>
+                                    <DropDown label = {'Category'} value ={category} updateOption={(cat) => setCategory(cat)} options = {categoryOptions} />
+                                    {/* <TextField required fullWidth defaultValue={category} label="Category" name="category" size="small" variant="outlined" onChange = {(e) => setCategory(e.target.value)} /> */}
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                    <PlacesAutocomplete value={address}  onChange={setAddress} onSelect={handleSelect}>
+      
+                                {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                                <>
+                                    <TextField required label="Address" name="address" fullWidth variant="outlined"  size="small" {...getInputProps({ placeholder: "Type address" })} />
+                                    <div>
+                                    {loading ? <div>...loading</div> : null}
+
+                                    {suggestions.map(suggestion => {
+                                        const style = {
+                                        backgroundColor: suggestion.active ? "#41b6e6" : "#fff"
+                                        };
+
+                                        return (
+                                        <div {...getSuggestionItemProps(suggestion, { style })}>
+                                            {suggestion.description}
+                                        </div>
+                                        );
+                                    })}
+                                    </div>
+                                </>
+                                )}
+                            </PlacesAutocomplete>
+                                </Grid>
+                        
                                 <Grid item xs={12}>
                                     <TextField required fullWidth defaultValue={sellerMobileNbr} label="Mobile Nbr" name="itemName" size="small" variant="outlined" onChange = {(e) => setSellerMobileNbr(e.target.value)} />
                                 </Grid>

@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import LeftMenu from './LeftMenu';
 import RightView from './RightView';
 import {getItems} from '../../service/ajax';
+import { sortData} from '../../service/datahelper';
 import { useSelector, useDispatch } from 'react-redux'
-import {updateItems} from '../../features/itemData/itemDataSlice';
+import {updateEffItems, updateItems} from '../../features/itemData/itemDataSlice';
 import { Grid,Container,Box } from "@material-ui/core";
 function Dashboard(props) {
 
@@ -20,7 +21,7 @@ function Dashboard(props) {
     var order = useSelector((state) => state.userInput.order);
     var username = useSelector((state) => state.userInfo.username);
     var buyFlag = useSelector((state) => state.userInput.buyFlag);
-    var position = useSelector((state) =>  state.userInfo.location);
+    var location = useSelector((state) =>  state.userInfo.location);
       
 
     function getItemsToDisplay(page, limit) {
@@ -29,14 +30,20 @@ function Dashboard(props) {
         console.log(selectedCategories);
         console.log(sortBy);
         console.log(order);
-        console.log(position);
+        console.log(location);
         console.log(page);
         console.log(limit);
 
         getItems(username, buyFlag, page, limit, sortBy, order).then(itemData => {
-            console.log(itemData)
 
             dispatch(updateItems({items: itemData}))
+            // TODO update eff Items as well
+            
+            let effItems = selectedCategories.length > 0 ? itemData.filter(item => selectedCategories.includes(item.category)) : itemData;
+            let sortedItems = sortData(effItems, sortBy, order,location);
+            dispatch(updateEffItems({effItems: sortedItems}))
+
+            
         })
        
     }

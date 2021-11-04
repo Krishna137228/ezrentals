@@ -1,8 +1,9 @@
 import React from "react";
 import {Helmet} from 'react-helmet';
 import AccountCircleSharpIcon from '@mui/icons-material/AccountCircleSharp';
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
 import {signOutUser} from '../features/userInfo/userInfoSlice';
+import {signOutUserInputs} from '../features/userInputs/userInputSlice';
 import { Button,TextField,Grid,Paper,AppBar,Typography,Toolbar,Box } from "@material-ui/core";
 function Header(props) {
     const dispatch = useDispatch();
@@ -13,6 +14,7 @@ function Header(props) {
 
     function signOut() {
         dispatch(signOutUser());
+        dispatch(signOutUserInputs());
     }
 
     return (

@@ -1,7 +1,9 @@
 import {React, useEffect,useState} from "react";
 import { getCategories } from "../service/ajax";
+import {sortData} from "../service/datahelper";
 import { useSelector, useDispatch } from 'react-redux'
-import {updateCategories} from '../features/userInputs/userInputSlice';
+import {updateCategories, updateSelectedCategories, updateCategoryOptions} from '../features/userInputs/userInputSlice';
+import {updateEffItems} from '../features/itemData/itemDataSlice';
 import { Grid,Box,Paper, Checkbox , FormGroup, FormControlLabel} from "@material-ui/core";
 
 
@@ -10,7 +12,11 @@ function CategoryFilter(props) {
     const dispatch = useDispatch();
 
     let [cats, setCats] = useState([]);
-    let selectedCats = useSelector((state) => state.userInput.categories);
+    let selectedCats = useSelector((state) => state.userInput.selectedCategories);
+    let allItems = useSelector((state) => state.itemData.items);
+    let sortBy = useSelector((state) => state.userInput.sortBy);
+    let order = useSelector((state) => state.userInput.order);
+    let location = useSelector((state) => state.userInfo.location);
 
     useEffect(() => {
         getCategories().then(categories => {
@@ -18,9 +24,14 @@ function CategoryFilter(props) {
             categories.forEach(cat => {
                 catList.push(cat.category);
             });
+            let catOptions = {};
+            categories.forEach(cat => {
+                catOptions[cat.category] = cat.category
+            })
             setCats(catList);
-            // setSelectedCats(catList);
-            dispatch(updateCategories({'categories': catList}))
+            dispatch(updateCategoryOptions({'categoryOptions': catOptions}))
+            dispatch(updateCategories({'categories': categories}));
+            dispatch(updateSelectedCategories({'selectedCategories': catList}));
         })
         
     },[])
@@ -36,8 +47,17 @@ function CategoryFilter(props) {
              // remove from selectedCats
              selectedCats = selectedCats.filter(item => item !== value)
         }
-        dispatch(updateCategories({'categories': selectedCats}))
-        console.log(e.target.value);
+        // TODO update eff Items as well  
+        
+        
+        let effItems = allItems.filter(item => selectedCats.includes(item.category))
+        let sortedItems = sortData(effItems, sortBy, order, location);
+        // console.log(sortedItems);
+            // TODO add sort function 
+            dispatch(updateEffItems({'effItems': sortedItems}));
+            dispatch(updateCategories({'categories': selectedCats}))
+
+        //console.log(e.target.value);
     }
     
     

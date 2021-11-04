@@ -33,7 +33,10 @@ const initialState = getBlankUser();
           state.emailId = null;
       },
       updateLocation: (state, action) => {
-          state.location=action.payload.location;
+          const location = {};
+          location.lat = action.payload.position.coords.latitude;
+          location.lng = action.payload.position.coords.longitude;
+          state.location=location;
       }
     },
   })

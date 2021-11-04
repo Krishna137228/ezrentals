@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Iteminfo from "../ItemInfo";
 
-
-import Stack from '@mui/material/Stack';
 import styles from '../../styles/rightview.module.scss';
 import { Grid,Container,Button, Box, Modal,Switch, Typography} from "@material-ui/core";
 import {updateSortBy, updateOrder, updateBuyFlag} from '../../features/userInputs/userInputSlice';
+import { updateEffItems } from "../../features/itemData/itemDataSlice";
+import { sortData } from "../../service/datahelper";
 import { useSelector, useDispatch } from 'react-redux'
 import DropDown from '../DropDown';
 import ItemUpload from '../ItemUpload';
@@ -14,7 +14,8 @@ function RightView(props) {
     
     const sortByOptions = {
         'Price': 'price',
-        'Distance': 'distance'
+        'Rent': 'rent',
+        'Location': 'location'
     };
     const orderOptions = {
         'ASC':'asc',
@@ -28,6 +29,9 @@ function RightView(props) {
     var sortBy = useSelector((state) => state.userInput.sortBy);
     var order = useSelector((state) => state.userInput.order);
     var buyFlag = useSelector((state) => state.userInput.buyFlag);
+    var location = useSelector((state) => state.userInfo.location); 
+
+    var effItems = useSelector((state) => state.itemData.effItems);
     
 
     function updateSortByFn(newSortBy) {
@@ -49,6 +53,13 @@ function RightView(props) {
         setOpenUploadModal(!openItemUploadModal);
     }
 
+    // TODO 
+    function applySort() {
+        let sortedItems = sortData(effItems, sortBy, order, location);
+        dispatch(updateEffItems({effItems: sortedItems}))
+        console.log("Apply sorting logic for items here")
+    }
+
     // // Item status modal
     // var [openItemStatusModal, setOpenItemStatusModal] = useState(false);
     // function toggleItemStatusModal() {
@@ -62,7 +73,7 @@ function RightView(props) {
                 <Box >
                     <Grid container direction="row-reverse" justifyContent="flex-start" alignItems="center" spacing={2}>
                         <Grid item xs={1}>
-                            <Button color="primary" variant="contained" onClick={(page, limit) => props.getItems(page, limit)}>
+                            <Button color="primary" variant="contained" onClick={() => applySort()}>
                                 Apply
                             </Button>
                         </Grid>
@@ -76,7 +87,7 @@ function RightView(props) {
                             <Grid container direction="row" justifyContent="flex-start" alignItems="center">
                                 <Grid item xs={3}>
                                     <Button color="primary" variant="contained" onClick={() => toggleSellItemModal()}>
-                                        Sell Item
+                                        Upload Item
                                     </Button>
                                     <Modal open={openItemUploadModal} onClose={toggleSellItemModal} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                                         <ItemUpload handleClose={toggleSellItemModal} />
@@ -96,9 +107,9 @@ function RightView(props) {
                                 <Grid item xs={1}>
                                     <Switch color='primary' defaultChecked onChange={(e) => handleBuyFlag(e)}/>
                                 </Grid>
-                                <Grid item xs={2}>
+                                <Grid item xs={3}>
                                         <Typography>
-                                             Buy Items
+                                             Explore Items
                                         </Typography>
                                 </Grid>
                             </Grid>
